@@ -29,3 +29,13 @@ class ErrorCantGetCoordinates(Exception):
 
     def __error(self):
         print(self.__error_message)
+
+
+class ErrorApiService(Exception):
+    """ Ошибка: неверный тип данных """
+    def __init__(self):
+        self.__error_message = "Извините! Вернулись не корректные данные."
+        self.__error()
+
+    def __error(self):
+        print(self.__error_message)

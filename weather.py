@@ -20,7 +20,7 @@ def _exit_program():
 
 def weather():
     # Страна, город
-    country, city = "Ирландия", "Дублин"
+    country, city = "Россия", "Мурино"
     try:
         # Определяем местоположение
         set_location(country, city)
@@ -41,6 +41,7 @@ def weather():
             "sunrise": other_data.sunrise,
             "sunset": other_data.sunset,
         }
+        # Отображаем данные
         output_weather(weather_types)
     except ErrorCountryDoesNotExist:
         _exit_program()

@@ -9,6 +9,7 @@ LOCATION_STORAGE = {
         "Мурино",
         "Рыбинск",
         "Ярославль",
+        "Qwe",
     ),
     "Russian": (
         "Moscow",
@@ -16,5 +17,5 @@ LOCATION_STORAGE = {
         "Murino",
         "Rybinsk"
         "Yaroslavl",
-    )
+    ),
 }

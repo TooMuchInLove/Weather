@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
 
 
-def output_weather(_weather_data: tuple):
+def output_weather(_weather_types: dict):
     # Данные для вывода
-    data = _weather_data
+    weather_types = _weather_types
     print("""
-        Страна: %s
-        Город: %s
-        Широта: %s
-        Долгота: %s
-    """ % (data[0], data[1], data[2], data[3]))
+    %s
+    %s, %s
+        %s°C
+    %s, %s
+    |   Влажность: %s%%
+    |   Скорость ветра: %s м/с
+    |   Восход: %s
+    |   Закат: %s
+    """ % (
+        weather_types["date_now"],
+        weather_types["country"],
+        weather_types["city"],
+        weather_types["temperature"],
+
+        weather_types["type"],
+        weather_types["description"],
+        weather_types["humidity"],
+        weather_types["wind_speed"],
+
+        weather_types["sunrise"],
+        weather_types["sunset"],
+    ))

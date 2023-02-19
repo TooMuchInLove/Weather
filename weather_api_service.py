@@ -6,7 +6,7 @@ from typing import NamedTuple
 from enum import Enum
 # Дата и время
 from datetime import datetime
-# ...
+# Доступ к средствам шифрования безопасности (ssl "Secure Sockets Layer")
 import ssl
 # Преобразовываем данные в json
 from json import loads
@@ -15,11 +15,10 @@ import urllib.request
 # Ошибка запроса
 from urllib.error import URLError
 
-
 # Локальный config
 from config import OPENWEATHER_URL
 # Локальный модули
-from weather_gps import Coordinates
+from weather_gps import Coordinates, COUNTRY, CITY
 # Локальный исключения
 from exceptions import ErrorApiService
 
@@ -34,6 +33,8 @@ Celsius = int
 PercentageOfHumidity = int
 # Скорость ветра
 WindSpeed = float
+# Место (страна и город)
+PLACE = str
 
 
 # Тип погоды
@@ -51,6 +52,8 @@ class WeatherType(Enum):
 class Weather(NamedTuple):
     # Дата и время сейчас
     date_now: DateTime
+    # Место (страна и город)
+    place: PLACE
     # температура (цельсий)
     temperature: Celsius
     # Процент влажности
@@ -67,12 +70,13 @@ class Weather(NamedTuple):
     sunset: DateTime
 
 
-def get_weather(_coordinates: Coordinates) -> Weather:
+def get_weather(_coordinates: Coordinates, _country: COUNTRY, _city: CITY) -> Weather:
     # Конвертируем объект в формат json
     open_weather = loads(_parse_openweather(_coordinates))
     # Возвращаемое значение :params: данные погоды
     return Weather(
         date_now=_parse_datetime_now(),
+        place="%s, %s" % (_country, _city),
         temperature=_parse_openweather_temperature(open_weather),
         humidity=_parse_openweather_humidity(open_weather),
         wind_speed=_parse_openweather_wind(open_weather),
@@ -97,7 +101,7 @@ def _parse_openweather(_coordinates: Coordinates):
 
 
 def _parse_datetime_now() -> DateTime:
-    return datetime.now().strftime("%d %B, %Y %H:%M")
+    return datetime.now().strftime("%d %B, %Y %H:%M:%S")
 
 
 def _parse_openweather_datetime(_openweather: dict, _type: str) -> DateTime:
@@ -126,7 +130,7 @@ def _parse_openweather_wind(_openweather: dict) -> WindSpeed:
 
 
 def _parse_openweather_type(_openweather: dict) -> WeatherType:
-    try:
+    try: # идентификатор погода
         weather_id = str(_openweather["weather"][0]["id"])
     except (IndexError, KeyError):
         raise ErrorApiService

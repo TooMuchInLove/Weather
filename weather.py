@@ -4,30 +4,43 @@
 # Локальный модули
 from weather_gps import set_location
 from weather_gps import get_gps_coordinates
-from weather_output import data_output
+from weather_api_service import get_weather
+from weather_output import output_weather
+# Локальные исключения
+from exceptions import ErrorCountryDoesNotExist
+from exceptions import ErrorCityDoesNotExist
+from exceptions import ErrorCantGetCoordinates
 
 
-# ===== ПОГОДА =============== #
+# Завершаем работу программы
+def _exit_program():
+    exit(1)
+
+
 def weather():
-    # ===== Структура приложения =============== #
     # Страна, город
-    country, city = "Россия", "Ярославль"
-
-    set_location(country, city)
-    print("Страна: %s\nГород: %s" % (country, city))
-
-    coordinates = get_gps_coordinates()
-    #print(coordinates)
-    print("Широта: %s\nДолгота: %s" % (coordinates.latitude, coordinates.longitude))
-
-    weather_data = (
-        country,
-        city,
-        coordinates.latitude,
-        coordinates.longitude,
-    )
-
-    print(data_output())
+    country, city = "Россия", "Москва"
+    try:
+        # Определяем местоположение
+        set_location(country, city)
+        # Определяем координаты
+        coordinates = get_gps_coordinates()
+        # Получаем данные о погоде
+        # print(get_weather(coordinates))
+        # Данные о погоде
+        weather_data = (
+            country,
+            city,
+            coordinates.latitude,
+            coordinates.longitude,
+        )
+        output_weather(weather_data)
+    except ErrorCountryDoesNotExist:
+        _exit_program()
+    except ErrorCityDoesNotExist:
+        _exit_program()
+    except ErrorCantGetCoordinates:
+        _exit_program()
 
 
 def main():

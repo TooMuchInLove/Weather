@@ -9,7 +9,7 @@ HEIGHT = 320
 ICON_URL = "icon/weather.png"
 
 # My secret key (OpenWeather)
-OPENWEATHER_API = "39ef5ab9b17a34d049087a678398ea89"
+OPENWEATHER_API = ""
 
 # Url-address (OpenWeather)
 OPENWEATHER_URL = (
@@ -22,10 +22,7 @@ OPENWEATHER_URL = (
 LOCATION_STORAGE = {
     "Россия": (
         "Москва",
-        "Санкт-Петербург",
-        "Мурино",
-        "Рыбинск",
-        "Ярославль",
+        "Санкт-Петербург"
     ),
     "Нидерланды": (
         "Амстердам",
@@ -38,12 +35,5 @@ LOCATION_STORAGE = {
     ),
     "Великобритания": (
         "Лондон",
-    ),
-    # "Russian": (
-    #     "Moscow",
-    #     "Saint-Petersburg",
-    #     "Murino",
-    #     "Rybinsk"
-    #     "Yaroslavl",
-    # ),
+    )
 }

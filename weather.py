@@ -1,44 +1,30 @@
 #!/usr/bin/env python3.11
 # -*- coding: utf-8 -*-
 
-# Определяем текущую директорию
-from pathlib import Path
+import sys
+# Графический интерфейс
+from PyQt5.QtWidgets import QWidget, QApplication
 
-# Локальный модули
-from weather_gps import set_location
-from weather_gps import get_gps_coordinates
-from weather_api_service import get_weather
-from weather_output import output_weather
-from logging_ import save_weather, TXTFileStorage
-# Локальные исключения
-from exceptions import ErrorCountryDoesNotExist
-from exceptions import ErrorCityDoesNotExist
-from exceptions import ErrorCantGetCoordinates
-from exceptions import ErrorApiService
+# Локальный config
+from config import WIDTH, HEIGHT
+# Графический интерфейс
+from formUI import WeatherFormUI
+# Логика приложения
+from form import LogicForm
 
 
 def main():
-    # Страна, город
-    country, city = "Нидерланды", "Амстердам"
-    try:
-        # Определяем местоположение
-        set_location(country, city)
-        # Определяем координаты
-        coordinates = get_gps_coordinates()
-        # Получаем данные о погоде
-        weather_types = get_weather(coordinates, country, city)
-        # Отображаем данные
-        print(output_weather(weather_types))
-        # Логгирование в текстовый документ
-        save_weather(weather_types, TXTFileStorage(Path.cwd()/"logging.txt"))
-    except ErrorCountryDoesNotExist:
-        exit(1)
-    except ErrorCityDoesNotExist:
-        exit(1)
-    except ErrorCantGetCoordinates:
-        exit(1)
-    except ErrorApiService:
-        exit(1)
+    # Создание приложения
+    app = QApplication(sys.argv)
+    Form = QWidget()
+    # Пользовательский интерфейс GUI
+    ui = WeatherFormUI(Form, WIDTH, HEIGHT)
+    # Логика приложения
+    login = LogicForm(ui)
+    # Отображение формы
+    Form.show()
+    # Закрытие приложения по кнопке
+    sys.exit(app.exec_())
 
 
 if __name__ == "__main__":

@@ -7,7 +7,8 @@ from enum import Enum
 # Дата и время
 from datetime import datetime
 # Доступ к средствам шифрования безопасности (ssl "Secure Sockets Layer")
-import ssl
+from ssl import _create_default_https_context
+from ssl import _create_unverified_context
 # Преобразовываем данные в json
 from json import loads
 # Делаем запрос
@@ -34,7 +35,7 @@ PercentageOfHumidity = int
 # Скорость ветра
 WindSpeed = float
 # Место (страна и город)
-PLACE = str
+Place = str
 
 
 # Тип погоды
@@ -53,7 +54,7 @@ class Weather(NamedTuple):
     # Дата и время сейчас
     date_now: DateTime
     # Место (страна и город)
-    place: PLACE
+    place: Place
     # температура (цельсий)
     temperature: Celsius
     # Процент влажности
@@ -91,7 +92,7 @@ def _parse_openweather(_coordinates: Coordinates):
     # Получаем широту и долготу
     latitude, longitude = _coordinates
     # Доступ к средствам шифрования безопасности (ssl "Secure Sockets Layer")
-    ssl._create_default_https_context = ssl._create_unverified_context
+    _create_default_https_context = _create_unverified_context
     # Формируем URL для сайта OpenWeather
     url = OPENWEATHER_URL % (latitude, longitude)
     try: # Парсим сайт OpenWeather и получаем некоторый объект
@@ -105,32 +106,35 @@ def _parse_datetime_now() -> DateTime:
 
 
 def _parse_openweather_datetime(_openweather: dict, _type: str) -> DateTime:
-    return datetime.fromtimestamp(_openweather["sys"][_type]).strftime("%H:%M")
+    try:
+        return datetime.fromtimestamp(_openweather["sys"][_type]).strftime("%H:%M")
+    except (KeyError, TypeError):
+        raise ErrorApiService
 
 
 def _parse_openweather_temperature(_openweather: dict) -> Celsius:
     try:
         return int(_openweather["main"]["temp"])
-    except TypeError:
+    except (KeyError, TypeError):
         raise ErrorApiService
 
 
 def _parse_openweather_humidity(_openweather: dict) -> PercentageOfHumidity:
     try:
         return int(_openweather["main"]["humidity"])
-    except TypeError:
+    except (KeyError, TypeError):
         raise ErrorApiService
 
 
 def _parse_openweather_wind(_openweather: dict) -> WindSpeed:
     try:
         return float(_openweather["wind"]["speed"])
-    except TypeError:
+    except (KeyError, TypeError):
         raise ErrorApiService
 
 
 def _parse_openweather_type(_openweather: dict) -> WeatherType:
-    try: # идентификатор погода
+    try: # идентификатор погоды
         weather_id = str(_openweather["weather"][0]["id"])
     except (IndexError, KeyError):
         raise ErrorApiService
@@ -154,5 +158,5 @@ def _parse_openweather_type(_openweather: dict) -> WeatherType:
 def _parse_openweather_description(_openweather: dict) -> str:
     try:
         return _openweather["weather"][0]["description"]
-    except TypeError:
+    except (KeyError, TypeError):
         raise ErrorApiService

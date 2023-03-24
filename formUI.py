@@ -122,15 +122,6 @@ class WeatherFormUI(object):
         self.bSettings.setFont(font_group1)
         self.bSettings.setObjectName("bSettings")
 
-        # # Кнопка закрытия
-        # self.bClose = QToolButton(self.widget)
-        # # Размеры и расположение
-        # WBS, HBS = 30, 30
-        # XBS, YBS = XBR-WBS-5, YBR
-        # self.bClose.setGeometry(QRect(XBS, YBS, WBS, HBS))
-        # self.bClose.setFont(font_group1)
-        # self.bClose.setObjectName("bClose")
-
         # Лэйбл для отображения ошибок
         self.lError = QLabel(self.widget)
         self.lError.setGeometry(QRect(5, 5, self.WIDTH-10, HBS))
@@ -140,7 +131,6 @@ class WeatherFormUI(object):
 
         # Таймер, уделённый под ошибку
         self.Timer = QTimer()
-        # ...
         QMetaObject.connectSlotsByName(self.widget)
 
     def __retranslateUi(self):
@@ -166,13 +156,4 @@ class ErrorQLabel:
         self.lError = QLabel(self.__ui.widget)
         self.lError.setGeometry(QRect(XLE, YLE, WLE, HLE))
         self.lError.setText(_error)
-        # self.lError.setFont(font_group3)
         self.lError.setObjectName("lError")
-
-        # Размеры и расположение
-        self.bClose = QLabel(self.__ui.widget)
-        self.bClose.setGeometry(QRect(XLE+WLE-10, YLE*2, 10, 10))
-        self.bClose.setText("х")
-        # self.bClose.setFont(font_group1)
-        self.bClose.setObjectName("bClose")
-        self.bClose.setVisible(False)

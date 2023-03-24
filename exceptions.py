@@ -4,12 +4,6 @@
 class ErrorCountryDoesNotExist(Exception):
     """ Ошибка: страна не существует """
     error = "Извините! Не смог найти такую страну."
-    # def __init__(self):
-    #     self.__error_message = "Извините! Не смог найти такую страну."
-    #     self.__error()
-    #
-    # def __error(self):
-    #     print(self.__error_message)
 
 
 class ErrorCityDoesNotExist(Exception):

@@ -1,45 +1,23 @@
-# -*- coding: utf-8 -*-
-
-# Аннотация типов
-from typing import NamedTuple
+from dataclasses import dataclass
 # Структура данных для перечисления
 from enum import Enum
 # Дата и время
 from datetime import datetime
 # Доступ к средствам шифрования безопасности (ssl "Secure Sockets Layer")
-from ssl import _create_default_https_context
-from ssl import _create_unverified_context
+from ssl import _create_unverified_context, _create_default_https_context
 # Преобразовываем данные в json
 from json import loads
-# Делаем запрос
-import urllib.request
-# Ошибка запроса
+# Делаем запрос, Ошибка запроса
+from urllib.request import urlopen
 from urllib.error import URLError
-
-# Локальный config
+# Локальные модули
 from config import OPENWEATHER_URL
-# Локальный модули
-from weather_gps import Coordinates, COUNTRY, CITY
-# Локальный исключения
+from weather_gps import Coordinates
 from exceptions import ErrorApiService
 
-# ============================================= #
-# ======= Подсказка типов Type Hinting ======== #
-# ============================================= #
-# Дата и время
-DateTime = str
-# Температура цельсий
-Celsius = int
-# Процент влажности
-PercentageOfHumidity = int
-# Скорость ветра
-WindSpeed = float
-# Место (страна и город)
-Place = str
 
-
-# Тип погоды
 class WeatherType(Enum):
+    """ Тип погоды """
     CLEAR = "Ясно"
     FOG = "Туман"
     CLOUDY = "Облачно"
@@ -49,35 +27,27 @@ class WeatherType(Enum):
     SNOW = "Снег"
 
 
-# Данные погоды (Именованный кортеж)
-class Weather(NamedTuple):
-    # Дата и время сейчас
-    date_now: DateTime
-    # Место (страна и город)
-    place: Place
-    # температура (цельсий)
-    temperature: Celsius
-    # Процент влажности
-    humidity: PercentageOfHumidity
-    # Скорость ветра
-    wind_speed: WindSpeed
-    # тип погоды (облачно, дождь и т.д)
-    weather_type: WeatherType
-    # краткое описание погода
-    description: str
-    # дата и время восхода
-    sunrise: DateTime
-    # дата и время заката
-    sunset: DateTime
+@dataclass(slots=True, frozen=True)
+class Weather:
+    """ Данные погоды (временный контейнер) """
+    date_now: str # Дата и время сейчас
+    place: str # Место (страна и город)
+    temperature: int # температура (цельсий)
+    humidity: int # Процент влажности
+    wind_speed: float # Скорость ветра
+    weather_type: WeatherType # тип погоды (облачно, дождь и т.д)
+    description: str # краткое описание погода
+    sunrise: str # дата и время восхода
+    sunset: str # дата и время заката
 
 
-def get_weather(_coordinates: Coordinates, _country: COUNTRY, _city: CITY) -> Weather:
+def get_weather(coordinates: Coordinates, country: str, city: str) -> Weather:
     # Конвертируем объект в формат json
-    open_weather = loads(_parse_openweather(_coordinates))
-    # Возвращаемое значение :params: данные погоды
+    open_weather = loads(_parse_openweather(coordinates))
+    # Возвращаемое значение: данные о погоде
     return Weather(
         date_now=_parse_datetime_now(),
-        place="%s, %s" % (_country, _city),
+        place=f"{country}, {city}",
         temperature=_parse_openweather_temperature(open_weather),
         humidity=_parse_openweather_humidity(open_weather),
         wind_speed=_parse_openweather_wind(open_weather),
@@ -88,54 +58,54 @@ def get_weather(_coordinates: Coordinates, _country: COUNTRY, _city: CITY) -> We
     )
 
 
-def _parse_openweather(_coordinates: Coordinates):
+def _parse_openweather(coordinates: Coordinates):
     # Получаем широту и долготу
-    latitude, longitude = _coordinates
+    latitude, longitude = coordinates
     # Доступ к средствам шифрования безопасности (ssl "Secure Sockets Layer")
     _create_default_https_context = _create_unverified_context
     # Формируем URL для сайта OpenWeather
     url = OPENWEATHER_URL % (latitude, longitude)
     try: # Парсим сайт OpenWeather и получаем некоторый объект
-        return urllib.request.urlopen(url).read()
+        return urlopen(url).read()
     except URLError:
         raise ErrorApiService
 
 
-def _parse_datetime_now() -> DateTime:
+def _parse_datetime_now() -> str:
     return datetime.now().strftime("%d %B, %Y %H:%M:%S")
 
 
-def _parse_openweather_datetime(_openweather: dict, _type: str) -> DateTime:
+def _parse_openweather_datetime(openweather: dict, type: str) -> str:
     try:
-        return datetime.fromtimestamp(_openweather["sys"][_type]).strftime("%H:%M")
+        return datetime.fromtimestamp(openweather["sys"][type]).strftime("%H:%M")
     except (KeyError, TypeError):
         raise ErrorApiService
 
 
-def _parse_openweather_temperature(_openweather: dict) -> Celsius:
+def _parse_openweather_temperature(openweather: dict) -> int:
     try:
-        return int(_openweather["main"]["temp"])
+        return int(openweather["main"]["temp"])
     except (KeyError, TypeError):
         raise ErrorApiService
 
 
-def _parse_openweather_humidity(_openweather: dict) -> PercentageOfHumidity:
+def _parse_openweather_humidity(openweather: dict) -> int:
     try:
-        return int(_openweather["main"]["humidity"])
+        return int(openweather["main"]["humidity"])
     except (KeyError, TypeError):
         raise ErrorApiService
 
 
-def _parse_openweather_wind(_openweather: dict) -> WindSpeed:
+def _parse_openweather_wind(openweather: dict) -> float:
     try:
-        return float(_openweather["wind"]["speed"])
+        return float(openweather["wind"]["speed"])
     except (KeyError, TypeError):
         raise ErrorApiService
 
 
-def _parse_openweather_type(_openweather: dict) -> WeatherType:
+def _parse_openweather_type(openweather: dict) -> WeatherType:
     try: # идентификатор погоды
-        weather_id = str(_openweather["weather"][0]["id"])
+        weather_id = str(openweather["weather"][0]["id"])
     except (IndexError, KeyError):
         raise ErrorApiService
     # Состояние погоды
@@ -155,8 +125,8 @@ def _parse_openweather_type(_openweather: dict) -> WeatherType:
         raise ErrorApiService
 
 
-def _parse_openweather_description(_openweather: dict) -> str:
+def _parse_openweather_description(openweather: dict) -> str:
     try:
-        return _openweather["weather"][0]["description"]
+        return openweather["weather"][0]["description"]
     except (KeyError, TypeError):
         raise ErrorApiService

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 class ErrorCountryDoesNotExist(Exception):
     """ Ошибка: страна не существует """
     error = "Извините! Не смог найти такую страну."

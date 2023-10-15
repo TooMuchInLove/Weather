@@ -2,7 +2,7 @@ from typing import NamedTuple
 # OpenStreetMap Nominatim API для получения широты и долготы из физического адреса
 from geopy.geocoders import Nominatim
 from exceptions import ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorCantGetCoordinates
-from config import LOCATION_STORAGE
+from config import LOCATION_STORAGE, LANGUAGE
 
 
 class Coordinates(NamedTuple):
@@ -42,7 +42,7 @@ def _get_nominatim_coordinates(country: str, city: str) -> Coordinates:
 def _is_define_the_country_and_city(country: str, city: str) -> None:
     """ Определяем, существует ли страна и город """
     # Если страна существует, то получаем список городов по ключу=страна
-    city_items = LOCATION_STORAGE.get(country)
+    city_items = LOCATION_STORAGE[LANGUAGE].get(country)
     if city_items is None:
         raise ErrorCountryDoesNotExist
     # Если город существует, то выбираем нужный ключ=город

@@ -35,7 +35,7 @@ class Weather:
     temperature: int # температура (цельсий)
     humidity: int # Процент влажности
     wind_speed: float # Скорость ветра
-    weather_type: WeatherType # тип погоды (облачно, дождь и т.д)
+    weather_type: str # тип погоды (облачно, дождь и т.д)
     description: str # краткое описание погода
     sunrise: str # дата и время восхода
     sunset: str # дата и время заката
@@ -103,7 +103,7 @@ def _parse_openweather_wind(openweather: dict) -> float:
         raise ErrorApiService
 
 
-def _parse_openweather_type(openweather: dict) -> WeatherType:
+def _parse_openweather_type(openweather: dict) -> str:
     try: # идентификатор погоды
         weather_id = str(openweather["weather"][0]["id"])
     except (IndexError, KeyError):

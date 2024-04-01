@@ -1,7 +1,7 @@
 from src.ui import UiWeatherForm
 from src.config import LOGS_PATH, LOCATION_STORAGE, LANGUAGE, EMPTY
 from .weather_gps import get_gps_coordinates
-from src.api import Weather, get_weather
+from .weather_api import Weather, get_weather
 from src.logs import TXTFileStorage, save_weather
 from src.exc import (ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorApiService,
                      ErrorCantGetCoordinates, ErrorFileNotFound)

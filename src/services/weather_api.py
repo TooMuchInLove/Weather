@@ -5,8 +5,8 @@ from ssl import _create_unverified_context
 from json import loads
 from urllib.request import urlopen
 from urllib.error import URLError
+from .weather_gps import Coordinates
 from src.config import OPENWEATHER_URL
-from src.services import Coordinates
 from src.exc import ErrorApiService
 
 

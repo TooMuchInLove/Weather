@@ -1,11 +1,8 @@
-# Графический интерфейс
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QSize, QRect, QTimer, QCoreApplication
 from PyQt5.QtWidgets import QWidget, QApplication, QGridLayout, QLabel, QComboBox, QPushButton
-# Локальные модули
-from config import (SIZE, WIDTH, HEIGHT, HEIGHT_WIDGETS, MARGIN, LOGO,
-                    ICON_VIEW, ICON_UPDATE, ICON_CLEAR)
-from theme import DARK_THEME
+from src.config import settings_app as sapp, images_app as iapp
+from .theme import DARK_THEME
 
 
 class UiWindow(QApplication):
@@ -34,9 +31,9 @@ class UiWeatherForm(UiWidget):
     def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("Погода")  # Отображение название в объектах
-        self.setMinimumSize(QSize(WIDTH, HEIGHT))  # Минимальный размер окна
-        self.setMaximumSize(QSize(WIDTH, HEIGHT))  # Максимальный размер окна
-        self.setWindowIcon(QIcon(LOGO))  # Логотип приложения
+        self.setMinimumSize(QSize(sapp.width, sapp.height))  # Минимальный размер окна
+        self.setMaximumSize(QSize(sapp.width, sapp.height))  # Максимальный размер окна
+        self.setWindowIcon(QIcon(iapp.logo))  # Логотип приложения
         self.setStyleSheet(DARK_THEME)  # Стиль приложения и виджетов
         self.__setup_ui()
         self.__setup_font()
@@ -45,32 +42,32 @@ class UiWeatherForm(UiWidget):
     def __setup_ui(self) -> None:
         """ Настройка и создание виджетов приложения """
         self.lDataNow = QLabel()  # Лэйбл для отображения Даты и Времени
-        self.lDataNow.setMinimumSize(QSize(*SIZE))
+        self.lDataNow.setMinimumSize(QSize(*sapp.size_widgets()))
         self.listPlace = QComboBox()  # Лэйбл для отображения Места проживания
         self.listPlace.setMaxVisibleItems(5)
-        self.listPlace.setMinimumSize(QSize(*SIZE))
+        self.listPlace.setMinimumSize(QSize(*sapp.size_widgets()))
         self.lTemperature = QLabel()  # Лэйбл для отображения Температуры
         self.lTemperature.setAlignment(Qt.AlignCenter)
-        self.lTemperature.setMinimumSize(QSize(*SIZE))
+        self.lTemperature.setMinimumSize(QSize(*sapp.size_widgets()))
         self.lWeatherType = QLabel()  # Лэйбл для отображения Типа Погоды
-        self.lWeatherType.setMinimumSize(QSize(*SIZE))
+        self.lWeatherType.setMinimumSize(QSize(*sapp.size_widgets()))
         self.lHumidity = QLabel()  # Лэйбл для отображения Влажности
-        self.lHumidity.setMinimumSize(QSize(*SIZE))
+        self.lHumidity.setMinimumSize(QSize(*sapp.size_widgets()))
         self.lWindSpeed = QLabel()  # Лэйбл для отображения Скорости ветра
-        self.lWindSpeed.setMinimumSize(QSize(*SIZE))
+        self.lWindSpeed.setMinimumSize(QSize(*sapp.size_widgets()))
         self.lSunrise = QLabel()  # Лэйбл для отображения Восхода
-        self.lSunrise.setMinimumSize(QSize(*SIZE))
+        self.lSunrise.setMinimumSize(QSize(*sapp.size_widgets()))
         self.lSunset = QLabel()  # Лэйбл для отображения Заката
-        self.lSunset.setMinimumSize(QSize(*SIZE))
+        self.lSunset.setMinimumSize(QSize(*sapp.size_widgets()))
         self.bRequest = QPushButton()  # Кнопка обновления данных
-        self.bRequest.setIcon(QIcon(ICON_VIEW))
-        self.bRequest.setMinimumSize(QSize(HEIGHT_WIDGETS, HEIGHT_WIDGETS))
+        self.bRequest.setIcon(QIcon(iapp.icon_view))
+        self.bRequest.setMinimumSize(QSize(sapp.height_widgets, sapp.height_widgets))
         self.bSettings = QPushButton()  # Кнопка настройки данных
-        self.bSettings.setIcon(QIcon(ICON_UPDATE))
-        self.bSettings.setMinimumSize(QSize(HEIGHT_WIDGETS, HEIGHT_WIDGETS))
+        self.bSettings.setIcon(QIcon(iapp.icon_update))
+        self.bSettings.setMinimumSize(QSize(sapp.height_widgets, sapp.height_widgets))
         self.bClear = QPushButton()  # Кнопка очистки содержимого виджетов
-        self.bClear.setIcon(QIcon(ICON_CLEAR))
-        self.bClear.setMinimumSize(QSize(HEIGHT_WIDGETS, HEIGHT_WIDGETS))
+        self.bClear.setIcon(QIcon(iapp.icon_clear))
+        self.bClear.setMinimumSize(QSize(sapp.height_widgets, sapp.height_widgets))
         self.gridlayout = QGridLayout(self)  # Разметка виджетов приложения
         self.gridlayout.addWidget(self.lDataNow, 1, 0, 1, 3)
         self.gridlayout.addWidget(self.listPlace, 2, 0, 1, 3)
@@ -84,7 +81,7 @@ class UiWeatherForm(UiWidget):
         self.gridlayout.addWidget(self.bRequest, 9, 1, alignment=Qt.AlignCenter | Qt.AlignTop)
         self.gridlayout.addWidget(self.bClear, 9, 2, alignment=Qt.AlignLeft | Qt.AlignTop)
         self.lNotification = QLabel(self)  # Лэйбл для отображения ошибок
-        self.lNotification.setGeometry(QRect(5, 5, WIDTH-MARGIN, HEIGHT_WIDGETS))
+        self.lNotification.setGeometry(QRect(5, 5, sapp.width-sapp.margin, sapp.height_widgets))
         self.lNotification.setVisible(False)
         self.Timer = QTimer()  # Таймер, уделённый под ошибку
 

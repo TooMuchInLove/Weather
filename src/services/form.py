@@ -1,11 +1,10 @@
-# Локальные модули
-from formUI import UiWeatherForm
-from config import MAIN_CURRENT_PATH, LOCATION_STORAGE, LANGUAGE, EMPTY
-from weather_gps import get_gps_coordinates
-from weather_api_service import Weather, get_weather
-from logging_ import TXTFileStorage, save_weather
-from exceptions import (ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorApiService,
-                        ErrorCantGetCoordinates, ErrorFileNotFound)
+from src.ui import UiWeatherForm
+from src.config import LOGS_PATH, LOCATION_STORAGE, LANGUAGE, EMPTY
+from .weather_gps import get_gps_coordinates
+from src.api import Weather, get_weather
+from src.logs import TXTFileStorage, save_weather
+from src.exc import (ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorApiService,
+                     ErrorCantGetCoordinates, ErrorFileNotFound)
 
 
 class LogicForm:
@@ -46,7 +45,7 @@ class LogicForm:
             weather = get_weather(coordinates, country, city)  # Получаем данные о погоде
             self.__display_data(weather)  # Отображение результатов
             # Логгирование в текстовый документ
-            save_weather(weather, TXTFileStorage(f"{MAIN_CURRENT_PATH}/logs/logging.txt"))
+            save_weather(weather, TXTFileStorage(f"{LOGS_PATH}/logging.txt"))
         except ErrorCountryDoesNotExist:
             self.__popup_notification(ErrorCountryDoesNotExist.error)
         except ErrorCityDoesNotExist:

@@ -1,19 +1,13 @@
 from dataclasses import dataclass
-# Структура данных для перечисления
 from enum import Enum
-# Дата и время
 from datetime import datetime
-# Доступ к средствам шифрования безопасности (ssl "Secure Sockets Layer")
-from ssl import _create_unverified_context, _create_default_https_context
-# Преобразовываем данные в json
+from ssl import _create_unverified_context
 from json import loads
-# Делаем запрос, Ошибка запроса
 from urllib.request import urlopen
 from urllib.error import URLError
-# Локальные модули
-from config import OPENWEATHER_URL
-from weather_gps import Coordinates
-from exceptions import ErrorApiService
+from src.config import OPENWEATHER_URL
+from src.services import Coordinates
+from src.exc import ErrorApiService
 
 
 class WeatherType(Enum):
@@ -30,15 +24,15 @@ class WeatherType(Enum):
 @dataclass(slots=True, frozen=True)
 class Weather:
     """ Данные погоды (временный контейнер) """
-    date_now: str # Дата и время сейчас
-    place: str # Место (страна и город)
-    temperature: int # температура (цельсий)
-    humidity: int # Процент влажности
-    wind_speed: float # Скорость ветра
-    weather_type: str # тип погоды (облачно, дождь и т.д)
-    description: str # краткое описание погода
-    sunrise: str # дата и время восхода
-    sunset: str # дата и время заката
+    date_now: str  # Дата и время сейчас
+    place: str  # Место (страна и город)
+    temperature: int  # температура (цельсий)
+    humidity: int  # Процент влажности
+    wind_speed: float  # Скорость ветра
+    weather_type: str  # тип погоды (облачно, дождь и т.д)
+    description: str  # краткое описание погода
+    sunrise: str  # дата и время восхода
+    sunset: str  # дата и время заката
 
 
 def get_weather(coordinates: Coordinates, country: str, city: str) -> Weather:

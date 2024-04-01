@@ -1,5 +1,4 @@
-# Локальные модули
-from weather_api_service import Weather
+from src.api import Weather
 
 
 def output_weather(weather: Weather) -> str:
@@ -11,6 +10,7 @@ def output_weather(weather: Weather) -> str:
            f"    |   Скорость ветра {weather.wind_speed} м/с\n" \
            f"    |   Восход {weather.sunrise}\n" \
            f"    |   Закат {weather.sunset}\n\n"
+
 
 def output_weather_colors(weather: Weather) -> str:
     return f"    \033[31m{weather.date_now}\033[0m\n" \

@@ -1,3 +1,5 @@
+# FIXME: исправить все Exception на более подробные исключения
+
 class ErrorCountryDoesNotExist(Exception):
     """ Ошибка: страна не существует """
     error = "Извините! Не смог найти такую страну."
@@ -18,6 +20,6 @@ class ErrorApiService(Exception):
     error = "Извините! Вернулись не корректные данные."
 
 
-class ErrorFileNotFound(Exception):
+class ErrorFileNotFound(FileNotFoundError):
     """ Ошибка: путь к файлу не найден """
     error = "Извините! Не смог выполнить логгирование."

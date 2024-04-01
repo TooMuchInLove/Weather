@@ -1,7 +1,6 @@
-# Локальный модули
-from weather_api_service import Weather
-from weather_output import output_weather
-from exceptions import ErrorFileNotFound
+from src.api import Weather
+from src.exc import ErrorFileNotFound
+from .weather_output import output_weather
 
 
 class IStorage:
@@ -16,7 +15,7 @@ class TXTFileStorage(IStorage):
 	""" Хранилище данных в текстовом формате """
 	__slots__ = ("_file",)
 
-	def __init__(self, path: str):
+	def __init__(self, path: str) -> None:
 		self._file = path
 
 	def save(self, weather: Weather) -> None:

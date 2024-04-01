@@ -1,8 +1,8 @@
 from typing import NamedTuple
 # OpenStreetMap Nominatim API для получения широты и долготы из физического адреса
 from geopy.geocoders import Nominatim
-from exceptions import ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorCantGetCoordinates
-from config import LOCATION_STORAGE, LANGUAGE
+from src.exc import ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorCantGetCoordinates
+from src.config import LOCATION_STORAGE, LANGUAGE
 
 
 class Coordinates(NamedTuple):

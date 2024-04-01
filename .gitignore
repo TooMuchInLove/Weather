@@ -1,3 +1,10 @@
+# Images
+icon/
+# Logging files
+logging/
 # Python
 .idea
-__pycache__
+**/__pycache__
+**/*.pyc
+# Envs
+.env

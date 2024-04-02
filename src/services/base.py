@@ -26,7 +26,7 @@ class LogicForm:
         """ Устанавливаем текст/стиль/видимость для уведомления и запускаем таймер """
         self.__ui.lNotification.setText(text)
         self.__ui.lNotification.setVisible(True)
-        self.__ui.Timer.start(1000)  # TIMEOUT
+        self.__ui.Timer.start(5000)  # TIMEOUT
 
     def __set_place(self) -> None:
         """ Создаём раскрывающийся список стран-городов """
@@ -65,8 +65,8 @@ class LogicForm:
         self.__ui.lWeatherType.setText(f"{weather.weather_type}, {weather.description}")
         self.__ui.lHumidity.setText(f"Влажность {weather.humidity}%")
         self.__ui.lWindSpeed.setText(f"Скорость ветра {weather.wind_speed} м/с")
-        self.__ui.lSunrise.setText(f"Восход {weather.sunrise}")
-        self.__ui.lSunset.setText(f"Закат {weather.sunset}")
+        self.__ui.lSunrise.setText(f"Восход\t{weather.sunrise}")
+        self.__ui.lSunset.setText(f"Закат\t{weather.sunset}")
 
     def __event_clearing_data(self) -> None:
         """ Очистка данных в виджетов """

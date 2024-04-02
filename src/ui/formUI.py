@@ -30,7 +30,7 @@ class UiWeatherForm(UiWidget):
 
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("Погода")  # Отображение название в объектах
+        self.setWindowTitle(sapp.title)  # Отображение название в объектах
         self.setMinimumSize(QSize(sapp.width, sapp.height))  # Минимальный размер окна
         self.setMaximumSize(QSize(sapp.width, sapp.height))  # Максимальный размер окна
         self.setWindowIcon(QIcon(iapp.logo))  # Логотип приложения
@@ -81,7 +81,8 @@ class UiWeatherForm(UiWidget):
         self.gridlayout.addWidget(self.bRequest, 9, 1, alignment=Qt.AlignCenter | Qt.AlignTop)
         self.gridlayout.addWidget(self.bClear, 9, 2, alignment=Qt.AlignLeft | Qt.AlignTop)
         self.lNotification = QLabel(self)  # Лэйбл для отображения ошибок
-        self.lNotification.setGeometry(QRect(5, 5, sapp.width-sapp.margin, sapp.height_widgets))
+        self.lNotification.setGeometry(QRect(10, 10, sapp.width-20, sapp.height_widgets))
+        self.lNotification.setWordWrap(True)
         self.lNotification.setVisible(False)
         self.Timer = QTimer()  # Таймер, уделённый под ошибку
 
@@ -89,10 +90,10 @@ class UiWeatherForm(UiWidget):
         """ Настройка стиля шрифта и размера """
         font_group1 = QFont()  # Группа 1
         font_group1.setFamily("Consolas")  # Rockwell, Arial, Consolas
-        font_group1.setPointSize(13)
+        font_group1.setPointSize(10)
         font_group2 = QFont()   # Группа 2
         font_group2.setFamily("Consolas")
-        font_group2.setPointSize(10)
+        font_group2.setPointSize(8)
         self.setFont(font_group1)  # Стиль шрифта и размер
         self.lDataNow.setFont(font_group1)
         self.listPlace.setFont(font_group1)

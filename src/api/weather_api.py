@@ -32,7 +32,7 @@ def _parse_openweather(coordinates: Coordinates):
     _create_default_https_context = ssl_create_unverified_context
     # Формируем URL для сайта OpenWeather
     url = OPENWEATHER_URL % (latitude, longitude)
-    try: # Парсим сайт OpenWeather и получаем некоторый объект
+    try:  # Парсим сайт OpenWeather и получаем некоторый объект
         return urlopen(url).read()
     except URLError:
         raise ErrorApiService
@@ -71,7 +71,7 @@ def _parse_openweather_wind(openweather: dict) -> float:
 
 
 def _parse_openweather_type(openweather: dict) -> str:
-    try: # идентификатор погоды
+    try:  # идентификатор погоды
         weather_id = str(openweather["weather"][0]["id"])
     except (IndexError, KeyError):
         raise ErrorApiService

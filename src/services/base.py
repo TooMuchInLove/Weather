@@ -9,6 +9,7 @@ from src.exc import (ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorApiSe
 
 
 class LogicForm:
+    """ Логический слой обработки логики с компонентами приложения """
     def __init__(self) -> None:
         self.__ui = UiWeatherForm()  # Пользовательский интерфейс и компоненты
         self.__ui.listPlace.activated.connect(self.__event_clearing_data)  # События нажатия на кнопки

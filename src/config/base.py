@@ -3,7 +3,7 @@ from os import environ as os_environ
 from dataclasses import dataclass
 
 # Секретный ключ (OpenWeather)
-OPENWEATHER_API = os_environ.get("OPENWEATHER_API", "39ef5ab9b17a34d049087a678398ea89")
+OPENWEATHER_API = os_environ.get("OPENWEATHER_API")
 # Url-address (OpenWeather)
 OPENWEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?" \
                   f"lat=%s&lon=%s&appid={OPENWEATHER_API}&lang=ru&units=metric"
@@ -21,10 +21,11 @@ IMAGES_PATH = f"{MAIN_PATH}\\icon"
 @dataclass(slots=True, frozen=True)
 class SettingsApplication:
     """ Настройки окна приложения """
-    width: int = 600  # ширина окна приложения, 330
+    title: str = "Погода"  # название окна приложения, Weather
+    width: int = 500  # ширина окна приложения, 330
     height: int = 500  # высота окна приложения, 350
-    height_widgets: int = 30  # высота компонентов в приложении
-    margin: int = 20  # внутренняя рамка для окна приложения
+    height_widgets: int = 45  # высота компонентов в приложении, 25
+    margin: int = 45  # внутренняя рамка для окна приложения, 20
 
     def size_widgets(self) -> tuple[int, int]:
         """ Размер виджета внутри приложения. """
@@ -56,10 +57,6 @@ LOCATION_STORAGE = {
     RU: {
         "Россия": (
             "Москва",
-            "Санкт-Петербург",
-            "Мурино",
-            "Рыбинск",
-            "Ярославль",
         ),
         "Нидерланды": (
             "Амстердам",
@@ -77,10 +74,6 @@ LOCATION_STORAGE = {
     ENG: {
         "Russian": (
             "Moscow",
-            "Saint-Petersburg",
-            "Murino",
-            "Rybinsk",
-            "Yaroslavl",
         ),
         "Netherlands": (
             "Amsterdam",

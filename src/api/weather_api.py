@@ -13,8 +13,8 @@ def get_weather(coordinates: Coordinates, country: str, city: str) -> Weather:
     open_weather = loads(_parse_openweather(coordinates))
     # Возвращаемое значение: данные о погоде
     return Weather(
-        date_now=_parse_datetime_now(),
-        place=f"{country}, {city}",
+        date_now=_get_datetime_now(),
+        place=_get_place(country, city),
         temperature=_parse_openweather_temperature(open_weather),
         humidity=_parse_openweather_humidity(open_weather),
         wind_speed=_parse_openweather_wind(open_weather),
@@ -38,15 +38,12 @@ def _parse_openweather(coordinates: Coordinates):
         raise ErrorApiService
 
 
-def _parse_datetime_now() -> str:
+def _get_datetime_now() -> str:
     return datetime.now().strftime("%d %B, %Y %H:%M:%S")
 
 
-def _parse_openweather_datetime(openweather: dict, type: str) -> str:
-    try:
-        return datetime.fromtimestamp(openweather["sys"][type]).strftime("%H:%M")
-    except (KeyError, TypeError):
-        raise ErrorApiService
+def _get_place(country: str, city: str) -> str:
+    return f"{country}, {city}"
 
 
 def _parse_openweather_temperature(openweather: dict) -> int:
@@ -95,5 +92,12 @@ def _parse_openweather_type(openweather: dict) -> str:
 def _parse_openweather_description(openweather: dict) -> str:
     try:
         return openweather["weather"][0]["description"]
+    except (KeyError, TypeError):
+        raise ErrorApiService
+
+
+def _parse_openweather_datetime(openweather: dict, type: str) -> str:
+    try:
+        return datetime.fromtimestamp(openweather["sys"][type]).strftime("%H:%M")
     except (KeyError, TypeError):
         raise ErrorApiService

@@ -6,7 +6,11 @@ from ui import UiWindow
 from services import LogicForm
 
 
-if __name__ == "__main__":
+def main() -> None:
     app = UiWindow(argv)
-    ui = LogicForm()
+    _ = LogicForm()  # var ui
     exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()

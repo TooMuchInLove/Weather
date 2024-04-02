@@ -26,7 +26,7 @@ class LogicForm:
         """ Устанавливаем текст/стиль/видимость для уведомления и запускаем таймер """
         self.__ui.lNotification.setText(text)
         self.__ui.lNotification.setVisible(True)
-        self.__ui.Timer.start(5000)  # TIMEOUT
+        self.__ui.Timer.start(1000)  # TIMEOUT
 
     def __set_place(self) -> None:
         """ Создаём раскрывающийся список стран-городов """

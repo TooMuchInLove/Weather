@@ -1,14 +1,8 @@
-from typing import NamedTuple
 # OpenStreetMap Nominatim API для получения широты и долготы из физического адреса
 from geopy.geocoders import Nominatim
-from src.exc import ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorCantGetCoordinates
+from src.containers import Coordinates
 from src.config import LOCATION_STORAGE, LANGUAGE
-
-
-class Coordinates(NamedTuple):
-    """ Координаты широта и долгота (временный контейнер) """
-    latitude: float
-    longitude: float
+from src.exc import ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorCantGetCoordinates
 
 
 def get_gps_coordinates(country: str, city: str) -> Coordinates:

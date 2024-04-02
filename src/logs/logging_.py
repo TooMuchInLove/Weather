@@ -1,4 +1,4 @@
-from src.services import Weather
+from src.containers import Weather
 from src.exc import ErrorFileNotFound
 
 

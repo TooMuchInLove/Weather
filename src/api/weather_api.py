@@ -1,38 +1,11 @@
-from dataclasses import dataclass
-from enum import Enum
 from datetime import datetime
-from ssl import _create_unverified_context
+from ssl import _create_unverified_context as ssl_create_unverified_context
 from json import loads
 from urllib.request import urlopen
 from urllib.error import URLError
-from .weather_gps import Coordinates
+from src.containers import Coordinates, WeatherType, Weather
 from src.config import OPENWEATHER_URL
 from src.exc import ErrorApiService
-
-
-class WeatherType(Enum):
-    """ Тип погоды """
-    CLEAR = "Ясно"
-    FOG = "Туман"
-    CLOUDY = "Облачно"
-    RAIN = "Дождь"
-    THUNDERSTORM = "Гроза"
-    FROST = "Изморозь"
-    SNOW = "Снег"
-
-
-@dataclass(slots=True, frozen=True)
-class Weather:
-    """ Данные погоды (временный контейнер) """
-    date_now: str  # Дата и время сейчас
-    place: str  # Место (страна и город)
-    temperature: int  # температура (цельсий)
-    humidity: int  # Процент влажности
-    wind_speed: float  # Скорость ветра
-    weather_type: str  # тип погоды (облачно, дождь и т.д)
-    description: str  # краткое описание погода
-    sunrise: str  # дата и время восхода
-    sunset: str  # дата и время заката
 
 
 def get_weather(coordinates: Coordinates, country: str, city: str) -> Weather:
@@ -56,7 +29,7 @@ def _parse_openweather(coordinates: Coordinates):
     # Получаем широту и долготу
     latitude, longitude = coordinates
     # Доступ к средствам шифрования безопасности (ssl "Secure Sockets Layer")
-    _create_default_https_context = _create_unverified_context
+    _create_default_https_context = ssl_create_unverified_context
     # Формируем URL для сайта OpenWeather
     url = OPENWEATHER_URL % (latitude, longitude)
     try: # Парсим сайт OpenWeather и получаем некоторый объект

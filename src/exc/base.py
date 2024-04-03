@@ -1,25 +1,44 @@
 # FIXME: исправить все Exception на более подробные исключения
+from geopy.exc import GeocoderServiceError
+
 
 class ErrorCountryDoesNotExist(Exception):
     """ Ошибка: страна не существует """
-    error = "Извините! Не смог найти такую страну."
+    __slots__ = ()
+
+    error = "Ошибка! Указанная страна не найдена."
 
 
 class ErrorCityDoesNotExist(Exception):
     """ Ошибка: город не существует """
-    error = "Извините! Не смог найти такой город."
+    __slots__ = ()
+
+    error = "Ошибка! Указанный город не найден."
 
 
 class ErrorCantGetCoordinates(Exception):
     """ Ошибка: не смогли получить координаты """
-    error = "Извините! Не смог получить координаты."
+    __slots__ = ()
+
+    error = "Ошибка! Координаты не получены."
 
 
 class ErrorApiService(Exception):
     """ Ошибка: неверный тип данных """
-    error = "Извините! Вернулись не корректные данные."
+    __slots__ = ()
+
+    error = "Ошибка! Вернулись не корректные данные."
 
 
 class ErrorFileNotFound(FileNotFoundError):
     """ Ошибка: путь к файлу не найден """
-    error = "Извините! Не смог выполнить логгирование."
+    __slots__ = ()
+
+    error = "Ошибка! Логгирование не выполнено."
+
+
+class ErrorGeocoderService(GeocoderServiceError):
+    """ Ошибка: подключение к интеренету """
+    __slots__ = ()
+
+    error = "Отсутствует подключение к интернету!"

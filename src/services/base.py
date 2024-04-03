@@ -2,7 +2,7 @@ from .weather_gps import get_gps_coordinates
 from src.containers import Weather
 from src.api import get_weather
 from src.ui import UiWeatherForm
-from src.config import LOGS_PATH, LOCATION_STORAGE, LANGUAGE, EMPTY
+from src.config import LOGS_PATH, LOCATION_STORAGE, LANGUAGE
 from src.logs import TXTFileStorage, save_weather
 from src.exc import (ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorApiService,
                      ErrorCantGetCoordinates, ErrorFileNotFound, ErrorGeocoderService)
@@ -73,10 +73,10 @@ class LogicForm:
 
     def __event_clearing_data(self) -> None:
         """ Очистка данных в виджетов """
-        self.__ui.lDataNow.setText(EMPTY)
-        self.__ui.lTemperature.setText(EMPTY)
-        self.__ui.lWeatherType.setText(EMPTY)
-        self.__ui.lHumidity.setText(EMPTY)
-        self.__ui.lWindSpeed.setText(EMPTY)
-        self.__ui.lSunrise.setText(EMPTY)
-        self.__ui.lSunset.setText(EMPTY)
+        self.__ui.lDataNow.clear()
+        self.__ui.lTemperature.clear()
+        self.__ui.lWeatherType.clear()
+        self.__ui.lHumidity.clear()
+        self.__ui.lWindSpeed.clear()
+        self.__ui.lSunrise.clear()
+        self.__ui.lSunset.clear()

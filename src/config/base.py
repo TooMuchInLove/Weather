@@ -13,7 +13,7 @@ BACKSLASH_OS_WINDOWS = "\\"
 CURRENT_PATH = os_path.dirname(__file__)
 MAIN_PATH = BACKSLASH_OS_WINDOWS.join(CURRENT_PATH.split(BACKSLASH_OS_WINDOWS)[:-2])
 # Директория с логами
-LOGS_PATH = f"{MAIN_PATH}\\logs"
+LOGS_PATH = f"{MAIN_PATH}\\logging"
 # Директория с изображениями
 IMAGES_PATH = f"{MAIN_PATH}\\icon"
 
@@ -44,9 +44,6 @@ class ImagesApplication:
 settings_app = SettingsApplication()
 images_app = ImagesApplication()
 
-
-# Обнуление информации виджетах
-EMPTY = ""
 # Язык приложение
 RU, ENG = "RU", "ENG"
 LANGUAGE = RU

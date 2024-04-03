@@ -79,8 +79,8 @@ def _parse_openweather_type(openweather: dict) -> str:
         "5": WeatherType.RAIN,
         "6": WeatherType.SNOW,
         "7": WeatherType.FOG,
+        "8": WeatherType.CLOUDY,
         "800": WeatherType.CLEAR,
-        "8": WeatherType.CLOUDY
     }
     for key, item in weather_types.items():
         if weather_id.startswith(key):

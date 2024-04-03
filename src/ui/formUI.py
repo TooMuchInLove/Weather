@@ -19,8 +19,8 @@ class UiWidget(QWidget):
 
     def __init__(self) -> None:
         super().__init__()
-        self.setStyleSheet(DARK_THEME)  # Стиль приложения и виджетов
-        self.show()  # Отображение формы
+        self.setStyleSheet(DARK_THEME)
+        self.show()
 
 
 class UiWeatherForm(UiWidget):
@@ -30,44 +30,34 @@ class UiWeatherForm(UiWidget):
 
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle(sapp.title)  # Отображение название в объектах
-        self.setMinimumSize(QSize(sapp.width, sapp.height))  # Минимальный размер окна
-        self.setMaximumSize(QSize(sapp.width, sapp.height))  # Максимальный размер окна
-        self.setWindowIcon(QIcon(iapp.logo))  # Логотип приложения
-        self.setStyleSheet(DARK_THEME)  # Стиль приложения и виджетов
+        self.setWindowTitle(sapp.title)
+        self.setMinimumSize(QSize(sapp.width, sapp.height))
+        self.setMaximumSize(QSize(sapp.width, sapp.height))
+        self.setWindowIcon(QIcon(iapp.logo))
+        self.setStyleSheet(DARK_THEME)
         self.__setup_ui()
-        self.__setup_font()
-        self.__setup_object_names()
 
     def __setup_ui(self) -> None:
         """ Настройка и создание виджетов приложения """
-        self.lDataNow = QLabel()  # Лэйбл для отображения Даты и Времени
-        self.lDataNow.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.listPlace = QComboBox()  # Лэйбл для отображения Места проживания
+        font_group1 = QFont("Consolas", 10)  # Rockwell, Arial, Consolas
+        font_group2 = QFont("Consolas", 8)
+        self.setFont(font_group1)
+        self.Timer = QTimer()
+        self.listPlace = QComboBox()
         self.listPlace.setMaxVisibleItems(5)
         self.listPlace.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.lTemperature = QLabel()  # Лэйбл для отображения Температуры
-        self.lTemperature.setAlignment(Qt.AlignCenter)
-        self.lTemperature.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.lWeatherType = QLabel()  # Лэйбл для отображения Типа Погоды
-        self.lWeatherType.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.lHumidity = QLabel()  # Лэйбл для отображения Влажности
-        self.lHumidity.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.lWindSpeed = QLabel()  # Лэйбл для отображения Скорости ветра
-        self.lWindSpeed.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.lSunrise = QLabel()  # Лэйбл для отображения Восхода
-        self.lSunrise.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.lSunset = QLabel()  # Лэйбл для отображения Заката
-        self.lSunset.setMinimumSize(QSize(*sapp.size_widgets()))
-        self.bRequest = QPushButton()  # Кнопка обновления данных
-        self.bRequest.setIcon(QIcon(iapp.icon_view))
-        self.bRequest.setMinimumSize(QSize(sapp.height_widgets, sapp.height_widgets))
-        self.bSettings = QPushButton()  # Кнопка настройки данных
-        self.bSettings.setIcon(QIcon(iapp.icon_update))
-        self.bSettings.setMinimumSize(QSize(sapp.height_widgets, sapp.height_widgets))
-        self.bClear = QPushButton()  # Кнопка очистки содержимого виджетов
-        self.bClear.setIcon(QIcon(iapp.icon_clear))
-        self.bClear.setMinimumSize(QSize(sapp.height_widgets, sapp.height_widgets))
+        self.listPlace.setObjectName("lPlace")
+        self.listPlace.setFont(font_group1)
+        self.lDataNow = Label(*sapp.size_widgets(), font=font_group1, name="lDataNow")
+        self.lTemperature = Label(*sapp.size_widgets(), font=font_group1, name="lTemperature", align=1)
+        self.lWeatherType = Label(*sapp.size_widgets(), font=font_group2, name="lWeatherType")
+        self.lHumidity = Label(*sapp.size_widgets(), font=font_group2, name="lHumidity")
+        self.lWindSpeed = Label(*sapp.size_widgets(), font=font_group2, name="lWindSpeed")
+        self.lSunrise = Label(*sapp.size_widgets(), font=font_group2, name="lSunrise")
+        self.lSunset = Label(*sapp.size_widgets(), font=font_group2, name="lSunset")
+        self.bRequest = PushButton(sapp.height_widgets, sapp.height_widgets, name="bRequest", icon=iapp.icon_view)
+        self.bSettings = PushButton(sapp.height_widgets, sapp.height_widgets, name="qwe", icon=iapp.icon_update)
+        self.bClear = PushButton(sapp.height_widgets, sapp.height_widgets, name="qwe", icon=iapp.icon_clear)
         self.gridlayout = QGridLayout(self)  # Разметка виджетов приложения
         self.gridlayout.addWidget(self.lDataNow, 1, 0, 1, 3)
         self.gridlayout.addWidget(self.listPlace, 2, 0, 1, 3)
@@ -80,46 +70,36 @@ class UiWeatherForm(UiWidget):
         self.gridlayout.addWidget(self.bSettings, 9, 0, alignment=Qt.AlignRight | Qt.AlignTop)
         self.gridlayout.addWidget(self.bRequest, 9, 1, alignment=Qt.AlignCenter | Qt.AlignTop)
         self.gridlayout.addWidget(self.bClear, 9, 2, alignment=Qt.AlignLeft | Qt.AlignTop)
-        self.lNotification = QLabel(self)  # Лэйбл для отображения ошибок
-        self.lNotification.setGeometry(QRect(10, 10, sapp.width-20, sapp.height_widgets))
+        self.lNotification = QLabel(self)
+        self.lNotification.setGeometry(QRect(10, 10, sapp.width - 20, sapp.height_widgets))
         self.lNotification.setWordWrap(True)
         self.lNotification.setVisible(False)
-        self.Timer = QTimer()  # Таймер, уделённый под ошибку
-
-    def __setup_font(self) -> None:
-        """ Настройка стиля шрифта и размера """
-        font_group1 = QFont()  # Группа 1
-        font_group1.setFamily("Consolas")  # Rockwell, Arial, Consolas
-        font_group1.setPointSize(10)
-        font_group2 = QFont()   # Группа 2
-        font_group2.setFamily("Consolas")
-        font_group2.setPointSize(8)
-        self.setFont(font_group1)  # Стиль шрифта и размер
-        self.lDataNow.setFont(font_group1)
-        self.listPlace.setFont(font_group1)
-        self.lTemperature.setFont(font_group1)
-        self.lWeatherType.setFont(font_group2)
-        self.lHumidity.setFont(font_group2)
-        self.lWindSpeed.setFont(font_group2)
-        self.lSunrise.setFont(font_group2)
-        self.lSunset.setFont(font_group2)
-        self.bRequest.setFont(font_group1)
-        self.bSettings.setFont(font_group1)
-        self.lNotification.setFont(font_group2)
-
-    def __setup_object_names(self) -> None:
-        """ Настройка и установка имён для виджетов """
-        self.lDataNow.setObjectName("lDataNow")
-        self.listPlace.setObjectName("lPlace")
-        self.lTemperature.setObjectName("lTemperature")
-        self.lWeatherType.setObjectName("lWeatherType")
-        self.lHumidity.setObjectName("lHumidity")
-        self.lWindSpeed.setObjectName("lWindSpeed")
-        self.lSunrise.setObjectName("lSunrise")
-        self.lSunset.setObjectName("lSunset")
-        self.bRequest.setObjectName("bRequest")
         self.lNotification.setObjectName("lNotification")
+        self.lNotification.setFont(font_group2)
 
     def close(self) -> None:
         """ Закрытие окна приложения """
         QCoreApplication.instance().quit()
+
+
+class Label(QLabel):
+    def __init__(self, width: int, height: int, font: QFont = None, name: str = None, align: int = None) -> None:
+        QLabel.__init__(self)
+        self.setMinimumSize(QSize(width, height))
+        if font is not None:
+            self.setFont(font)
+        if name is not None:
+            self.setObjectName(name)
+        if align is not None:
+            alignments = {0: Qt.AlignLeft, 1: Qt.AlignCenter, 2: Qt.AlignRight}
+            self.setAlignment(alignments[align])
+
+
+class PushButton(QPushButton):
+    def __init__(self, width: int, height: int, name: str = None, icon: str = None) -> None:
+        QPushButton.__init__(self)
+        self.setMinimumSize(QSize(width, height))
+        if name is not None:
+            self.setObjectName(name)
+        if icon is not None:
+            self.setIcon(QIcon(icon))

@@ -5,7 +5,7 @@ from src.ui import UiWeatherForm
 from src.config import LOGS_PATH, LOCATION_STORAGE, LANGUAGE, EMPTY
 from src.logs import TXTFileStorage, save_weather
 from src.exc import (ErrorCountryDoesNotExist, ErrorCityDoesNotExist, ErrorApiService,
-                     ErrorCantGetCoordinates, ErrorFileNotFound)
+                     ErrorCantGetCoordinates, ErrorFileNotFound, ErrorGeocoderService)
 
 
 class LogicForm:
@@ -48,6 +48,8 @@ class LogicForm:
             self.__display_data(weather)  # Отображение результатов
             # Логгирование в текстовый документ
             save_weather(weather, TXTFileStorage(f"{LOGS_PATH}/logging.txt"))
+        except ErrorGeocoderService:
+            self.__popup_notification(ErrorGeocoderService.error)
         except ErrorCountryDoesNotExist:
             self.__popup_notification(ErrorCountryDoesNotExist.error)
         except ErrorCityDoesNotExist:

@@ -2,10 +2,9 @@ from datetime import datetime
 from ssl import _create_unverified_context as ssl_create_unverified_context
 from json import loads
 from urllib.request import urlopen
-from urllib.error import URLError
 from src.containers import Coordinates, WeatherType, Weather
 from src.config import OPENWEATHER_URL
-from src.exc import ErrorApiService
+from src.exc import URLError, ErrorApiService
 
 
 def get_weather(coordinates: Coordinates, country: str, city: str) -> Weather:

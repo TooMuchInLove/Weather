@@ -1,10 +1,10 @@
 # OpenStreetMap Nominatim API для получения широты и долготы из физического адреса
 from geopy.geocoders import Nominatim
-from geopy.exc import GeocoderServiceError
 from src.containers import Coordinates
 from src.config import LOCATION_STORAGE, LANGUAGE
 from src.exc import (ErrorCountryDoesNotExist, ErrorCityDoesNotExist,
-                     ErrorCantGetCoordinates, ErrorGeocoderService,)
+                     ErrorCantGetCoordinates, ErrorGeocoderService,
+                     GeocoderServiceError,)
 
 
 def get_gps_coordinates(country: str, city: str) -> Coordinates:

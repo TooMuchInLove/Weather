@@ -3,7 +3,7 @@ from os import environ as os_environ
 from dataclasses import dataclass
 
 # Секретный ключ (OpenWeather)
-OPENWEATHER_API = os_environ.get("OPENWEATHER_API")
+OPENWEATHER_API = os_environ.get("OPENWEATHER_API", "39ef5ab9b17a34d049087a678398ea89")
 # Url-address (OpenWeather)
 OPENWEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?" \
                   f"lat=%s&lon=%s&appid={OPENWEATHER_API}&lang=ru&units=metric"
@@ -54,6 +54,10 @@ LOCATION_STORAGE = {
     RU: {
         "Россия": (
             "Москва",
+            # "Санкт-Петербург",
+            # "Мурино",
+            # "Рыбинск",
+            # "Ярославль",
         ),
         "Нидерланды": (
             "Амстердам",
@@ -71,6 +75,10 @@ LOCATION_STORAGE = {
     ENG: {
         "Russian": (
             "Moscow",
+            "Saint-Petersburg",
+            "Murino",
+            "Rybinsk",
+            "Yaroslavl",
         ),
         "Netherlands": (
             "Amsterdam",

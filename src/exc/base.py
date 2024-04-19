@@ -1,29 +1,29 @@
-# FIXME: исправить все Exception на более подробные исключения
 from geopy.exc import GeocoderServiceError
+from urllib.error import URLError
 
 
-class ErrorCountryDoesNotExist(Exception):
+class ErrorCountryDoesNotExist(KeyError):
     """ Ошибка: страна не существует """
     __slots__ = ()
 
     error = "Ошибка! Указанная страна не найдена."
 
 
-class ErrorCityDoesNotExist(Exception):
+class ErrorCityDoesNotExist(KeyError):
     """ Ошибка: город не существует """
     __slots__ = ()
 
     error = "Ошибка! Указанный город не найден."
 
 
-class ErrorCantGetCoordinates(Exception):
+class ErrorCantGetCoordinates(ValueError):
     """ Ошибка: не смогли получить координаты """
     __slots__ = ()
 
     error = "Ошибка! Координаты не получены."
 
 
-class ErrorApiService(Exception):
+class ErrorApiService(URLError):
     """ Ошибка: неверный тип данных """
     __slots__ = ()
 
